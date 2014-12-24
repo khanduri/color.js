@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <title>Library | Colour: colour.js</title>
+    <script src="colour.js"></script>
+    <script type="text/javascript">
+      window.onload = function(){
+        console.log(Colour('00000').isValidColour());
+        console.log(Colour('#ide').isValidColour());
+        console.log(Colour('#00000').isValidColour());
+        console.log(Colour('#def').isValidColour());
+
+        console.log(Colour('#000000').isValidColour());
+        console.log('Name for #000000 = ' + Colour('#000000').getName());
+        console.log('Name for #000001 = ' + Colour('#000001').getName());
+        console.log('Name for #F00001 = ' + Colour('#F00001').getName());
+      }
+    </script>
+	</head>
+  <body>
+    <div id="container">Playground</div>
+  </body>
+</html>
