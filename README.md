@@ -16,4 +16,4 @@ I decided to go down this route.
 
 Please feel free to add any ideas (PR's are even better) for improvement.
 
-For examples: checkout `samples.html`
+For examples: checkout [samples.html](https://rawgit.com/khanduri/color.js/master/sample.html)
