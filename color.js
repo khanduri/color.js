@@ -1,29 +1,29 @@
-function Colour(colour){
+function Color(color){
     var self = {};
-    self.colour = colour.toUpperCase();
+    self.color = color.toUpperCase();
 
-    self.isValidColour = function(){
+    self.isValidColor = function(){
         var pattern = new RegExp("^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$");
-        return pattern.test(self.colour);
+        return pattern.test(self.color);
     };
 
-    self.getFullColour = function(){
-        if (self.fullColour != undefined){
-            return self.fullColour;
+    self.getFullColor = function(){
+        if (self.fullColor != undefined){
+            return self.fullColor;
         }
-        if (self.isValidColour()){
-            if (self.colour.length == 4) {
-                self.fullColour = self.colour + self.colour.substr(1);
-                return self.fullColour;
+        if (self.isValidColor()){
+            if (self.color.length == 4) {
+                self.fullColor = self.color + self.color.substr(1);
+                return self.fullColor;
             }
-            return self.colour;
+            return self.color;
         }
-        throw new Error("Invalid colour = " + self.colour);
+        throw new Error("Invalid color = " + self.color);
     }
 
     self.getName = function(){
-        var fullColour = self.getFullColour();
-        var exactMatch = default_map[fullColour];
+        var fullColor = self.getFullColor();
+        var exactMatch = default_map[fullColor];
         if (exactMatch !== undefined){
             return exactMatch.toLowerCase();
         }
@@ -31,36 +31,36 @@ function Colour(colour){
     }
 
     self.getApproximateName = function(){
-        var fullColour = self.getFullColour();
+        var fullColor = self.getFullColor();
         var rgb = self.getRGB();
         var r = rgb[0], g = rgb[1], b = rgb[2];
         var hsl = self.getHSL();
         var h = hsl[0], s = hsl[1], l = hsl[2];
 
-        var closet_colour = undefined;
+        var closet_color = undefined;
         var diff = -1;
 
         for (var key in default_map){
-            var curr_colour = new Colour(key);
-            var c_rgb = curr_colour.getRGB();
-            var c_hsl = curr_colour.getHSL();
+            var curr_color = new Color(key);
+            var c_rgb = curr_color.getRGB();
+            var c_hsl = curr_color.getHSL();
             var sq_rgb = Math.pow(r - c_rgb[0], 2) + Math.pow(g - c_rgb[1], 2) + Math.pow(b - c_rgb[2], 2);
             var sq_hsl = Math.pow(r - c_hsl[0], 2) + Math.pow(g - c_hsl[1], 2) + Math.pow(b - c_hsl[2], 2);
             var sq = sq_rgb + sq_hsl * 2;
             if (diff < 0 || diff > sq) {
                 diff = sq;
-                closet_colour = key;
+                closet_color = key;
             }
         }
 
-        return default_map[closet_colour].toLowerCase() + "_approx";
+        return default_map[closet_color].toLowerCase() + "_approx";
     }
 
     self.getRGB = function() {
-        var fullColour = self.getFullColour();
-        var red = parseInt('0x' + fullColour.substring(1, 3));
-        var green = parseInt('0x' + fullColour.substring(3, 5));
-        var blue = parseInt('0x' + fullColour.substring(5, 7));
+        var fullColor = self.getFullColor();
+        var red = parseInt('0x' + fullColor.substring(1, 3));
+        var green = parseInt('0x' + fullColor.substring(3, 5));
+        var blue = parseInt('0x' + fullColor.substring(5, 7));
         return [red, green, blue];
     }
 
