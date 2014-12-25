@@ -1,14 +1,14 @@
-function Color(color){
+function Color(color) {
     var self = {};
     self.color = color.toUpperCase();
 
-    self.isValidColor = function(){
+    self.isValidColor = function() {
         var pattern = new RegExp("^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$");
         return pattern.test(self.color);
     };
 
-    self.getFullColor = function(){
-        if (self.fullColor != undefined){
+    self.getFullColor = function() {
+        if (self.fullColor != undefined) {
             return self.fullColor;
         }
         if (self.isValidColor()){
@@ -21,7 +21,7 @@ function Color(color){
         throw new Error("Invalid color = " + self.color);
     }
 
-    self.getName = function(){
+    self.getName = function() {
         var fullColor = self.getFullColor();
         var exactMatch = default_map[fullColor];
         if (exactMatch !== undefined){
@@ -30,7 +30,7 @@ function Color(color){
         return self.getApproximateName();
     }
 
-    self.getApproximateName = function(){
+    self.getApproximateName = function() {
         var fullColor = self.getFullColor();
         var rgb = self.getRGB();
         var r = rgb[0], g = rgb[1], b = rgb[2];
@@ -40,7 +40,7 @@ function Color(color){
         var closet_color = undefined;
         var diff = -1;
 
-        for (var key in default_map){
+        for (var key in default_map) {
             var curr_color = new Color(key);
             var c_rgb = curr_color.getRGB();
             var c_hsl = curr_color.getHSL();
@@ -90,7 +90,7 @@ function Color(color){
         return [parseInt(h * 255), parseInt(s * 255), parseInt(l * 255)];
     }
 
-    self.getYUV = function(){
+    self.getYUV = function() {
         var rgb = self.getRGB();
         var r = rgb[0]/255, g = rgb[1]/255, b = rgb[2]/255;
 
@@ -99,6 +99,56 @@ function Color(color){
         var v = 0.615 * r + -0.515 * g + -0.100 * b;
 
         return [y, u, v];
+    }
+
+    self.getShades = function(level) {
+        if (level === undefined) level = 10;
+        return self._getGradients(level, true);
+    }
+
+    self.getTints = function(level) {
+        if (level === undefined) level = 10;
+        return self._getGradients(level, false);
+    }
+
+    self._getGradients = function(level, decrement) {
+        var rgb = self.getRGB();
+
+        var red = rgb[0], green = rgb[1], blue = rgb[2];
+        var deltaR = Math.round(red*0.1), deltaG = Math.round(green*0.1), deltaB = Math.round(blue*0.1);
+
+        var redString = null, greenString = null, blueString = null;
+        var pad = "00";
+        var shadeValues = [];
+        for (var i = 0; i < level; i++) {
+            redString = red.toString(16);
+            greenString = green.toString(16);
+            blueString = blue.toString(16);
+
+            if (decrement) {
+                red = Math.max(0, red - deltaR);
+                green = Math.max(0, green - deltaG);
+                blue = Math.max(0, blue - deltaB);
+            } else {
+                red = Math.min(255, red + deltaR);
+                green = Math.min(255, green + deltaG);
+                blue = Math.min(255, blue + deltaB);
+            }
+
+            redString = pad.substring(0, pad.length - redString.length) + redString;
+            greenString = pad.substring(0, pad.length - greenString.length) + greenString;
+            blueString = pad.substring(0, pad.length - blueString.length) + blueString;
+
+            shadeValues.push('#' + redString + greenString + blueString);
+        }
+
+        if (decrement) {
+            shadeValues.push("#000000");
+        } else {
+            shadeValues.push("#FFFFFF");
+        }
+
+        return shadeValues;
     }
 
     return self;
