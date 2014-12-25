@@ -2,7 +2,7 @@ function Color(color) {
     var self = {};
     self.color = color.toUpperCase();
 
-    self.isValidColor = function() {
+    self.isValid = function() {
         var pattern = new RegExp("^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$");
         return pattern.test(self.color);
     };
@@ -11,7 +11,7 @@ function Color(color) {
         if (self.fullColor != undefined) {
             return self.fullColor;
         }
-        if (self.isValidColor()){
+        if (self.isValid()){
             if (self.color.length == 4) {
                 self.fullColor = self.color + self.color.substr(1);
                 return self.fullColor;

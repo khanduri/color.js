@@ -1,28 +1,148 @@
 <html>
   <head>
-    <title>Library | Color: color.js</title>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="color.js"></script>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <title>Library | Color: color.js</title>
     <script type="text/javascript">
-      window.onload = function(){
-        console.log(Color('00000').isValidColor());
-        console.log(Color('#ide').isValidColor());
-        console.log(Color('#00000').isValidColor());
-        console.log(Color('#def').isValidColor());
+      $(document).ready(function(){
+        var color = Color("#123456");
 
-        console.log(Color('#000000').isValidColor());
-        console.log('Name for #000000 = ' + Color('#000000').getName());
-        console.log('Name for #000001 = ' + Color('#000001').getName());
-        console.log('Name for #F00001 = ' + Color('#F00001').getName());
+        $('#ans-valid-color-0').text(color.isValid());
+        $('#ans-valid-color-1').text(Color("#def").isValid());
+        $('#ans-valid-color-2').text(Color("#000000").isValid());
 
-        console.log('RGB for #F00001 = ' + Color('#F00001').getRGB());
-        console.log('HSL for #F00001 = ' + Color('#F00001').getHSL());
-        console.log('YUV for #F00001 = ' + Color('#F00001').getYUV());
-        console.log('Shades for #F00001 = ' + Color('#F00001').getShades());
-        console.log('Tints for #F00001 = ' + Color('#F00001').getTints());
-      }
+        $('#ans-valid-color-3').text(Color("00000").isValid());
+        $('#ans-valid-color-4').text(Color("#ide").isValid());
+        $('#ans-valid-color-5').text(Color("#00000").isValid());
+
+        $('#ans-name-0').text(color.getName());
+        $('#ans-name-1').text(Color("#def").getName());
+        $('#ans-name-2').text(Color("#000000").getName());
+        $('#ans-name-3').text('Should throw an Exception!');
+        try {
+          Color("00000").getName();
+        } catch(err) {
+          $('#ans-name-3').text("Throws Exception: " + err);
+        }
+
+        $('#ans-rgb-0').text(color.getRGB());
+        $('#ans-rgb-1').text(Color("#def").getRGB());
+        $('#ans-rgb-2').text(Color("#000000").getRGB());
+        $('#ans-rgb-3').text('Should throw an Exception!');
+        try {
+          Color("00000").getRGB();
+        } catch(err) {
+          $('#ans-rgb-3').text("Throws Exception: " + err);
+        }
+
+        $('#ans-hsl-0').text(color.getHSL());
+        $('#ans-hsl-1').text(Color("#def").getHSL());
+        $('#ans-hsl-2').text(Color("#000000").getHSL());
+        $('#ans-hsl-3').text('Should throw an Exception!');
+        try {
+          Color("00000").getHSL();
+        } catch(err) {
+          $('#ans-hsl-3').text("Throws Exception: " + err);
+        }
+
+        $('#ans-yuv-0').text(color.getYUV());
+        $('#ans-yuv-1').text(Color("#def").getYUV());
+        $('#ans-yuv-2').text(Color("#000000").getYUV());
+        $('#ans-yuv-3').text('Should throw an Exception!');
+        try {
+          Color("00000").getYUV();
+        } catch(err) {
+          $('#ans-yuv-3').text("Throws Exception: " + err);
+        }
+
+        $('#ans-shades').text(color.getShades());
+        $('#ans-tints').text(color.getTints());
+      });
     </script>
 	</head>
   <body>
-    <div id="container">Playground</div>
+    <div class="container">
+      <h1>Samples:</h1>
+      <div id="content-container">
+        <h4>init</h4>
+        <div id="content-init">
+          <pre>
+var color = Color("#123456");
+          </pre>
+        </div>
+        <h4>.isValid()</h4>
+        <div id="content-is-valid">
+          <pre>
+color.isValid(); // is: <strong><span id="ans-valid-color-0"></span></strong>
+
+Color("#def").isValid(); // is: <strong><span id="ans-valid-color-1"></span></strong>
+Color("#000000").isValid(); // is: <strong><span id="ans-valid-color-2"></span></strong>
+
+Color("00000").isValid(); // is: <strong><span id="ans-valid-color-3"></span></strong>
+Color("#ide").isValid(); // is: <strong><span id="ans-valid-color-4"></span></strong>
+Color("#00000").isValid(); // is: <strong><span id="ans-valid-color-5"></span></strong>
+          </pre>
+        </div>
+        <h4>.getName()</h4>
+        <div id="content-get-name">
+          <pre>
+color.getName(); // is: <strong><span id="ans-name-0"></span></strong>
+
+Color("#def").getName(); // is: <strong><span id="ans-name-1"></span></strong>
+Color("#000000").getName(); // is: <strong><span id="ans-name-2"></span></strong>
+
+Color("00000").getName(); // is: <strong><span id="ans-name-3"></span></strong>
+          </pre>
+        </div>
+        <h4>.getRGB()</h4>
+        <div id="content-get-rgb">
+          <pre>
+color.getRGB(); // is: <strong><span id="ans-rgb-0"></span></strong>
+
+Color("#def").getRGB(); // is: <strong><span id="ans-rgb-1"></span></strong>
+Color("#000000").getRGB(); // is: <strong><span id="ans-rgb-2"></span></strong>
+
+Color("00000").getRGB(); // is: <strong><span id="ans-rgb-3"></span></strong>
+          </pre>
+        </div>
+        <h4>.getHSL()</h4>
+        <div id="content-get-hsl">
+          <pre>
+color.getHSL(); // is: <strong><span id="ans-hsl-0"></span></strong>
+
+Color("#def").getHSL(); // is: <strong><span id="ans-hsl-1"></span></strong>
+Color("#000000").getHSL(); // is: <strong><span id="ans-hsl-2"></span></strong>
+
+Color("00000").getHSL(); // is: <strong><span id="ans-hsl-3"></span></strong>
+          </pre>
+        </div>
+        <h4>.getYUV()</h4>
+        <div id="content-get-yuv">
+          <pre>
+color.getYUV(); // is: <strong><span id="ans-yuv-0"></span></strong>
+
+Color("#def").getYUV(); // is: <strong><span id="ans-yuv-1"></span></strong>
+Color("#000000").getYUV(); // is: <strong><span id="ans-yuv-2"></span></strong>
+
+Color("00000").getYUV(); // is: <strong><span id="ans-yuv-3"></span></strong>
+          </pre>
+        </div>
+        <h4>.getShades()</h4>
+        <div id="content-get-shades">
+          <pre>
+color.getShades();
+// <strong><span id="ans-shades"></span></strong>
+          </pre>
+        </div>
+        <h4>.getTints()</h4>
+        <div id="content-get-tints">
+          <pre>
+color.getTints();
+// <strong><span id="ans-tints"></span></strong>
+          </pre>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
