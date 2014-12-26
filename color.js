@@ -1,3 +1,7 @@
+//     color.js
+//
+//     (c) 2014-2015 Prashant Khanduri
+
 function Color(color) {
     var self = {};
     self.color = color.toUpperCase();
@@ -102,20 +106,26 @@ function Color(color) {
     }
 
     self.getShades = function(level) {
-        if (level === undefined) level = 10;
-        return self._getGradients(level, true);
+        return self.getGradients("#000000", level);
     }
 
     self.getTints = function(level) {
-        if (level === undefined) level = 10;
-        return self._getGradients(level, false);
+        return self.getGradients("#FFFFFF", level);
     }
 
-    self._getGradients = function(level, decrement) {
-        var rgb = self.getRGB();
+    self.getGradients = function(finalColor, level) {
+        if (level === undefined) level = 10;
 
-        var red = rgb[0], green = rgb[1], blue = rgb[2];
-        var deltaR = Math.round(red*0.1), deltaG = Math.round(green*0.1), deltaB = Math.round(blue*0.1);
+        var rgb = self.getRGB();
+        var finalC = Color(finalColor);
+        var finalRGB = finalC.getRGB();
+
+        var red = rgb[0],
+            green = rgb[1],
+            blue = rgb[2];
+        var deltaR = Math.round((red - finalRGB[0]) * (1 / level)),
+            deltaG = Math.round((green - finalRGB[1]) * (1 / level)),
+            deltaB = Math.round((blue - finalRGB[2]) * (1 / level));
 
         var redString = null, greenString = null, blueString = null;
         var pad = "00";
@@ -125,27 +135,15 @@ function Color(color) {
             greenString = green.toString(16);
             blueString = blue.toString(16);
 
-            if (decrement) {
-                red = Math.max(0, red - deltaR);
-                green = Math.max(0, green - deltaG);
-                blue = Math.max(0, blue - deltaB);
-            } else {
-                red = Math.min(255, red + deltaR);
-                green = Math.min(255, green + deltaG);
-                blue = Math.min(255, blue + deltaB);
-            }
+            red = Math.max(0, red - deltaR);
+            green = Math.max(0, green - deltaG);
+            blue = Math.max(0, blue - deltaB);
 
             redString = pad.substring(0, pad.length - redString.length) + redString;
             greenString = pad.substring(0, pad.length - greenString.length) + greenString;
             blueString = pad.substring(0, pad.length - blueString.length) + blueString;
 
             shadeValues.push('#' + redString + greenString + blueString);
-        }
-
-        if (decrement) {
-            shadeValues.push("#000000");
-        } else {
-            shadeValues.push("#FFFFFF");
         }
 
         return shadeValues;
